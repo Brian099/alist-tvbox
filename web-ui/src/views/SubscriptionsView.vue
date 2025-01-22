@@ -65,14 +65,10 @@
     </el-row>
     <el-row>
       PG包本地： {{ pgLocal }}
-      
       <span class="hint"></span>
-      <span v-if="pgLocal==pgRemote"><el-icon color="green"><Check /></el-icon></span>
-      <span v-else><el-icon color="orange"><Warning /></el-icon></span>
     </el-row>
     <el-row>
       真心包本地： {{ zxLocal }}
-      
       <span class="hint"></span>
       <span v-if="zxLocal==zxRemote"><el-icon color="green"><Check /></el-icon></span>
       <span v-else><el-icon color="orange"><Warning /></el-icon></span>
@@ -392,7 +388,6 @@ const load = () => {
 const loadVersion = () => {
   axios.get("/pg/version").then(({data}) => {
     pgLocal.value = data.local
-    pgRemote.value = data.remote
   })
   axios.get("/zx/version").then(({data}) => {
     zxLocal.value = data.local
