@@ -392,8 +392,32 @@ const load = () => {
 const loadVersion = () => {
   axios.get("/pg/version").then(({data}) => {
     pgLocal.value = data.local
-    pgRemote.value = data.remote
   })
+  fetch("http://www.fish2018.us.kg/p/jsm.json")
+  .then(response => response.json())
+  .then(data => {
+    // 提取非空的zip字段
+    const zipArray = data.sites.filter(site => site.zip).map(site => site.zip);
+
+    // 提取版本号
+    const remoteVersions = zipArray.map(zip => {
+      const match = zip.match(/pg\.(.*)\.zip/);
+      return match ? match[1] : null;
+    }).filter(version => version !== null);
+
+    // 假设我们使用第一个提取的版本号
+    const REMOTE = remoteVersions[0];
+
+    // 设置pgRemote的值
+    if (REMOTE) {
+      pgRemote.value = REMOTE;
+    } else {
+      console.error("No valid PG version found in zip files.");
+    }
+  })
+  .catch(error => {
+    console.error("Failed to fetch or parse JSON data:", error);
+  });
   axios.get("/zx/version").then(({data}) => {
     zxLocal.value = data.local
     zxRemote.value = data.remote
