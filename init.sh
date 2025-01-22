@@ -50,8 +50,10 @@ init() {
   rm mobi.tgz
 
   sqlite3 /opt/alist/data/data.db ".read /update.sql"
+  
+  proxy=$(cat /data/proxy.txt)
 
-  wget -T 30 -t 2 https://raw.githubusercontent.com/xiaoyaliu00/data/main/tvbox.zip -O tvbox.zip || \
+  wget -T 30 -t 2 ${proxy}https://raw.githubusercontent.com/xiaoyaliu00/data/main/tvbox.zip -O tvbox.zip || \
   wget -T 30 -t 2 http://har01d.org/tvbox.zip -O tvbox.zip || \
   cp /tvbox.zip ./
 
@@ -109,10 +111,10 @@ fi
 
 cd /tmp/
 
-wget -T 30 -t 2 https://raw.githubusercontent.com/xiaoyaliu00/data/main/version.txt -O version.txt || \
+wget -T 30 -t 2 ${proxy}https://raw.githubusercontent.com/xiaoyaliu00/data/main/version.txt -O version.txt || \
 wget -T 10 -t 2 http://har01d.org/version.txt -O version.txt
 
-wget -T 30 -t 2 https://raw.githubusercontent.com/xiaoyaliu00/data/main/update.zip -O update.zip || \
+wget -T 30 -t 2 ${proxy}https://raw.githubusercontent.com/xiaoyaliu00/data/main/update.zip -O update.zip || \
 wget -T 30 -t 2 http://har01d.org/update.zip -O update.zip
 
 if [ ! -f update.zip ]; then
